@@ -29,9 +29,12 @@ force_gravity = 9.81 * (wet_mass)
 
 
 def Vacuum_dV(motor_isp, wet_mass, dry_mass):
-    dV = motor_isp * STANDARD_GRAVITY * np.log(wet_mass / dry_mass)
-    print("Total delta-V is %.2f m/s \n\n") % dV
-    return dV
+    #    print(wet_mass, dry_mass, motor_isp, STANDARD_GRAVITY)
+    deltaV = STANDARD_GRAVITY * motor_isp * np.log(wet_mass / dry_mass)
+    print("Total delta-V is %.2f m/s \n\n") % deltaV
+    #mF = 5300 / (STANDARD_GRAVITY * motor_isp)
+    #    print("Burn time is %.2f s") % mF
+    return deltaV
 
 
 def Mass_of_spaceship(wet_mass, mass_flow, mass_ship, i):
@@ -124,7 +127,7 @@ def Atmosphere_Density(altitude):
 
 def Drag(density, velocity, reference_area):
     # drag = coefficient * density * velocity^2 * reference area / 2
-    cd = .8  #drag coefficient
+    cd = .75  #drag coefficient
     A = reference_area
     drag = .5 * cd * density * A * velocity**2
     return drag
@@ -172,7 +175,7 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     dV = Vacuum_dV(motor_isp, wet_mass, dry_mass)
 
     i = 0
-    altitude = 30000.0
+    altitude = 0.0
     velocity = 0.0
     force_drag = 0.0
     theta = 0.0
@@ -291,12 +294,18 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
 
 def initialize_variables(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     #current values for falcon 9 booster
-    thrust = 2000  #float(raw_input("What is the total thrust? (in newtons) "))
-    motor_isp = 215  #float(raw_input("What is the motor\'s vacuum isp? "))
+    thrust = float(
+        5300)  #float(raw_input("What is the total thrust? (in newtons) "))
+    motor_isp = float(
+        315)  #float(raw_input("What is the motor\'s vacuum isp? "))
     mass_flow = thrust / (motor_isp * STANDARD_GRAVITY)
 
-    dry_mass = 8  #127000#13600 #float(raw_input("What is the dry mass of your ship? "))
-    wet_mass = 14  #510000#27300 #float(raw_input("What is the wet mass of your ship? "))
+    dry_mass = float(
+        30
+    )  #127000#13600 #float(raw_input("What is the dry mass of your ship? "))
+    wet_mass = float(
+        40
+    )  #510000#27300 #float(raw_input("What is the wet mass of your ship? "))
 
     reference_area = math.pi * .1**2  # pi*r^2
     return dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area

@@ -30,7 +30,7 @@ setup(name='Rocket-Launch-Simulator',
       install_requires=[
           "numpy","matplotlib","math",
       ],
-      packages=[''],
+      packages=['package'],
       # scripts=[''],
       include_package_data=True,
       classifiers=[

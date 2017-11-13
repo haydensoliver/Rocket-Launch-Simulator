@@ -38,22 +38,64 @@ def Vacuum_dV(motor_isp, wet_mass, dry_mass):
 
 
 def Mass_of_spaceship(wet_mass, mass_flow, mass_ship, i):
+    """Calculates the mass of the rocket at time t
+
+    Args:
+        wet_mass (float): The mass of the ship and fuel at time t=0.
+        mass_flow (float): Amount of fuel expelled per timestep
+        i (int): Iterator used for Euler's Method
+
+    Returns:
+        mass_ship (float): The new mass of the ship at timestep i.
+
+    """
+
     mass_ship = wet_mass - mass_flow * TIME_STEP * i
     return mass_ship
 
 
 def Force_Gravity(mass_ship, altitude):
+    """Calculates the force of gravity acting on the ship.
+
+    Args:
+        mass_ship (float): The mass of the ship at timestep i.
+        altitude (float): The altitude of the rocket above Mean Sea level
+
+    Returns:
+        force_gravity (float): Calculated force of gravity at timestep i.
+    """
 
     force_gravity = G * mass_ship * MASS_EARTH / ((RADIUS_EARTH + altitude)**2)
     return force_gravity
 
 
 def Thrust_ship(thrust, motor_isp, mass_flow):
+    """Calculates thrust from the Rocket eqation: Thrust = Isp * g0 * massflow
+
+    Args:
+        motor_isp (float): Effiency constant for the motor.
+        mass_flow (float): Total mass flow of exhaust.
+
+    Returns:
+        thrust (float): Thrust force produced by the rocket.
+
+     """
     thrust = motor_isp * STANDARD_GRAVITY * mass_flow
     return thrust
 
 
 def Acceleration(thrust, force_gravity, mass_ship, force_drag):
+    """Calculates the acceleration at timestep t
+
+    Args:
+        force_gravity (float): force of gravity at timestep i
+        mass_ship (float): The mass of the ship at timestep i
+        force_drag (float): Force of drag at timestep i
+
+    Returns:
+        acceleration (float): Acceleration vector from a=dF/dm
+
+    """
     acceleration = (
         thrust - force_gravity - force_drag) / mass_ship  # """ - force_drag"""
     return acceleration

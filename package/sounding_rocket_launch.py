@@ -1,5 +1,5 @@
 """Needed pieces for the rocket launch simulator"""
-import math
+#import scipy
 import matplotlib.pyplot as plt
 import numpy as np
 """----------Imported functions--------------"""
@@ -349,7 +349,7 @@ def initialize_variables(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
         40
     )  #510000#27300 #float(raw_input("What is the wet mass of your ship? "))
 
-    reference_area = math.pi * .1**2  # pi*r^2
+    reference_area = 3.14159.pi * .1**2  # pi*r^2
     return dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area
 
 

@@ -28,7 +28,7 @@ setup(name='Rocket-Launch-Simulator',
       setup_requires=['pytest-runner',],
       tests_require=['pytest', 'python-coveralls'],
       install_requires=[
-          "numpy","matplotlib","math",
+          "numpy","math",
       ],
       packages=['package'],
       # scripts=[''],

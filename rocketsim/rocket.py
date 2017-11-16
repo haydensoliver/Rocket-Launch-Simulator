@@ -9,7 +9,7 @@ STANDARD_GRAVITY = 9.80665  # m/s^2
 G = 6.674 * 10**-11
 MASS_EARTH = 5.972 * 10**24  #kilograms
 RADIUS_EARTH = 6.371 * 10**6  #meters
-TIME_STEP = .01  #seconds
+TIME_STEP = .1  #seconds
 e = 2.71828
 #MAX = 10000 # number of iterations, = 1000 second launch program
 """---------------VARIABLES---------------"""
@@ -31,7 +31,9 @@ force_gravity = 9.81 * (wet_mass)
 def Vacuum_dV(motor_isp, wet_mass, dry_mass):
     #    print(wet_mass, dry_mass, motor_isp, STANDARD_GRAVITY)
     deltaV = STANDARD_GRAVITY * motor_isp * np.log(wet_mass / dry_mass)
-    print("Total delta-V is %.2f m/s \n\n") % deltaV
+    print("Total delta-V is ")
+    print(deltaV)
+    print(" m/s \n\n")
     #mF = 5300 / (STANDARD_GRAVITY * motor_isp)
     #    print("Burn time is %.2f s") % mF
     return deltaV
@@ -269,12 +271,17 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
         i += 1
 
     gravity_loss = dV - velocity
-    print "Final velocity: %.2f m/s \nTotal dV lost: %.2f m/s" % (velocity,
-                                                                  gravity_loss)
+    print ("Final velocity: ")
+    print(velocity)
+    print(" m/s \nTotal dV lost: ")
+    print(gravity_loss)
+    print(" m/s")
 
-    print "\n\n---MECO---\n\n"
+    print ("\n\n---MECO---\n\n")
 
     while altitude > 0:
+        print('a', altitude)
+        print('v',velocity)
         mass_ship = dry_mass  #- 1400
 
         force_gravity = Force_Gravity(mass_ship, altitude)
@@ -303,11 +310,11 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
 
         i += 1
 
-    print("Apogee: %.2f m") % max(height)
-    print("Max Velocity: %.2f m/s") % max(speed)
-    print("Min Velocity: %.2f m/s") % min(speed)
-    print("Max Acceleration: %.2f m/s^2") % max(acceleration_rocket)
-    print("Max Drag: %.2f N") % max(drag)
+    #print("Apogee: %.2f m") % max(height)
+    #print("Max Velocity: %.2f m/s") % max(speed)
+    #print("Min Velocity: %.2f m/s") % min(speed)
+    #print("Max Acceleration: %.2f m/s^2") % max(acceleration_rocket)
+    #print("Max Drag: %.2f N") % max(drag)
     #print("y max: %.2f m") % max(a)
 
     plt.subplot(4, 1, 1)
@@ -349,7 +356,7 @@ def initialize_variables(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
         40
     )  #510000#27300 #float(raw_input("What is the wet mass of your ship? "))
 
-    reference_area = 3.14159.pi * .1**2  # pi*r^2
+    reference_area = 3.14159 * .1**2  # pi*r^2
     return dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area
 
 

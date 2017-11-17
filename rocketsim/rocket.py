@@ -321,7 +321,7 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     #print("Max Drag: %.2f N") % max(drag)
     #print("y max: %.2f m") % max(a)
 
-    plt.subplot(4, 1, 1)
+    '''plt.subplot(4, 1, 1)
     plt.plot(time_passed, acceleration_rocket)
     plt.ylabel("Acceleration (m/s^2)")
     #plt.xlabel("Time (s)")
@@ -342,7 +342,7 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     plt.ylabel("Velocity (m/s)")
     plt.xlabel("Time (s)")
 
-    plt.show()
+    plt.show()'''
 
 
 def initialize_variables(thrust, motor_isp, mass_flow, dry_mass, wet_mass):

@@ -28,7 +28,7 @@ setup(name='rocketsim',
       setup_requires=['pytest-runner',],
       tests_require=['pytest', 'python-coveralls'],
       install_requires=[
-          "numpy",
+          "numpy","matplotlib",
       ],
       packages=[''],
       # scripts=[''],

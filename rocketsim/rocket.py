@@ -197,12 +197,12 @@ def Position_downrange(downrange, velocity, angle_of_attack):
 
 
 #def Angle_Of_Attack():
-def pitch(theta, altitude, velocity):
-    if velocity < 100:
-        return 90
+#def pitch(theta, altitude, velocity):
+#    if velocity < 100:
+#        return 90
 
-    elif velocity > 100 and velocity < 300:
-        theta_max = 0
+#    elif velocity > 100 and velocity < 300:
+#        theta_max = 0
 
 
 def free_fall_acceleration(force_gravity, mass_ship, force_drag):
@@ -279,9 +279,11 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
 
     print ("\n\n---MECO---\n\n")
 
+
+    import time as t
     while altitude > 0:
-        print('a', altitude)
-        print('v',velocity)
+        #print('a', altitude)
+        # sprint('v',velocity)
         mass_ship = dry_mass  #- 1400
 
         force_gravity = Force_Gravity(mass_ship, altitude)
@@ -306,8 +308,10 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
         #downrange = Position_downrange(downrange, velocity)
 
         time = i * TIME_STEP
+        print("t+",time,"s")
         time_passed.append(time)
-
+        print(altitude)
+        break
         i += 1
 
     #print("Apogee: %.2f m") % max(height)

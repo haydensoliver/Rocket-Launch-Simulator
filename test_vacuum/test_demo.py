@@ -4,7 +4,7 @@ import unittest
 def test_Vacuum_dV():
     """Tests the function to find vacuum dV"""
 
-    from sounding_rocket_launch import Vacuum_dV
+    from rocketsim import Vacuum_dV
 
     assert 0 == Vacuum_dV(300,100,100)
     print("pass 1")

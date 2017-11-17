@@ -4,7 +4,7 @@ import unittest
 def test_Vacuum_dV():
     """Tests the function to find vacuum dV"""
 
-    from rocketsim import Vacuum_dV
+    from rocketsim.rocket import Vacuum_dV
 
     assert 0 == Vacuum_dV(300,100,100)
     print("pass 1")
@@ -15,4 +15,4 @@ def test_Vacuum_dV():
 
     #assert float('Inf') == Vacuum_dV(300,0,1)
     #assert float('NaN') == Vacuum_dV(300,1,0)
-test_Vacuum_dV()
+#test_Vacuum_dV()

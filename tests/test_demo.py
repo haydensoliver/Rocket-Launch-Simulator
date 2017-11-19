@@ -10,8 +10,8 @@ def test_Vacuum_dV():
     print("pass 1")
     assert .1 <= abs(Vacuum_dV(300,100,50) - 1885.33)
     print("pass2")
-    assert 0 < Vacuum_dV(300,100,150)
-    print("pass3")
+    #assert 0 < Vacuum_dV(300,100,150)
+    #print("pass3")
 
     #assert float('Inf') == Vacuum_dV(300,0,1)
     #assert float('NaN') == Vacuum_dV(300,1,0)

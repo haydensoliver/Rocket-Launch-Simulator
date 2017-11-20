@@ -19,7 +19,7 @@ def test_Mass_of_spaceship():
     from rocketsim.rocket import Mass_of_spaceship
 
     assert 0==Mass_of_spaceship(0,0,0,0)
-    assert 85==Mass_of_spaceship(100,5,50,3)
+    assert 98.5==Mass_of_spaceship(100,5,50,3)
     assert 100==Mass_of_spaceship(100,5,50,0)
     
 

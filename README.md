@@ -6,3 +6,6 @@
 --------
 
 This package is a simple simulator, to be used in conjunction with popular simulators OpenRocket or RockSim.
+
+
+Full API Documentation available at: [github pages](https://hallover.github.io/Rocket-Launch-Simulator/).

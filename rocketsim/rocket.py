@@ -53,6 +53,7 @@ def Mass_of_spaceship(wet_mass, mass_flow, mass_ship, i):
     """
 
     mass_ship = wet_mass - mass_flow * TIME_STEP * i
+
     return mass_ship
 
 

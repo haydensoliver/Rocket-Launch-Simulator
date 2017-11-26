@@ -1,10 +1,10 @@
-"""Needed pieces for the rocket launch simulator"""
+#"""Needed pieces for the rocket launch simulator"""
 #import scipy
 import matplotlib.pyplot as plt
 import numpy as np
-"""----------Imported functions--------------"""
+#"""----------Imported functions--------------"""
 #import math.sin as sin()
-"""--------------CONSTANTS-----------------"""
+#"""--------------CONSTANTS-----------------"""
 STANDARD_GRAVITY = 9.80665  # m/s^2
 G = 6.674 * 10**-11
 MASS_EARTH = 5.972 * 10**24  #kilograms
@@ -12,7 +12,7 @@ RADIUS_EARTH = 6.371 * 10**6  #meters
 TIME_STEP = .1  #seconds
 e = 2.71828
 #MAX = 10000 # number of iterations, = 1000 second launch program
-"""---------------VARIABLES---------------"""
+#---------------VARIABLES---------------
 thrust = 0.0
 motor_isp = 0.0
 altitude = 0.0
@@ -25,7 +25,7 @@ mass_flow = 0.0
 dry_mass = 0.0
 wet_mass = 0.0
 force_gravity = 9.81 * (wet_mass)
-"""------------PROGRAMS--------------"""
+#------------PROGRAMS--------------
 
 
 def Vacuum_dV(motor_isp, wet_mass, dry_mass):
@@ -105,24 +105,34 @@ def Acceleration(thrust, force_gravity, mass_ship, force_drag):
 
 
 def Atmosphere_Density(altitude):
+    """Calculates the density of the atmosphere at any altitude for use in the drag equation"
+
+    Args:
+        altitude (float): The current altitude in meters above sea level
+
+    Returns:
+        rho (float): The density of the air in kg/m^3 at altitude
+    """
 
     h = altitude
-    """CONSTANTS FOR GASSES"""
+    # """CONSTANTS FOR GASSES"""
     R = 8.31432  # ideal gas constant J/(mol*K)
     M = .0289644  # molar mass of dry air, kg/mol
-    """SUBSCRIPT TABLES"""
+    #"""SUBSCRIPT TABLES"""
     pb = [1.2250, 0.36391, 0.08803, 0.01322, 0.00143, 0.00086, 0.000064]
     hb = [0.0, 11000, 20000, 32000, 47000, 51000, 71000]
     Tb = [288.15, 216.65, 216.65, 228.65, 270.65, 270.65, 214.65]
     Lb = [-0.0065, 0.0, 0.001, 0.0028, 0.0, -0.0028, -0.002]
 
-    """----EQUATIONS FOR AIR DENSITY------- Taken from the Barometric formula. Accurate up to 80,000m above sea level
-    If temperature step != 0
-    rho = pb[i] * (Tb[i] / (Tb[i] + Lb[i] * (h - hb))) ** (1 + (STANDARD_GRAVITY * M) / (R * Lb))
+    # ----EQUATIONS FOR AIR DENSITY------- Taken from the Barometric formula. Accurate up to 80,000m above sea level
+    # If temperature step != 0
+    # rho = pb[i] * (Tb[i] / (Tb[i] + Lb[i] * (h - hb))) ** (1 + (STANDARD_GRAVITY * M) / (R * Lb))
+    #
+    # If temperature step == 0
+    # rho = pb[i] * e ** ((-1* (STANDARD_GRAVITY) * M * (h - hb[i])) / (R * Tb[i]))
 
-    If temperature step == 0
-    rho = pb[i] * e ** ((-1* (STANDARD_GRAVITY) * M * (h - hb[i])) / (R * Tb[i]))
-    """#-------------------------------------
+    # The altitude model used below is based on the standard atmospheric model used in modern meteorology.
+    # It takes into accout the different regression rates and properties of the thermoclines.
 
     if altitude < 11000:
         i = 0
@@ -171,14 +181,37 @@ def Atmosphere_Density(altitude):
 
 
 def Drag(density, velocity, reference_area):
-    # drag = coefficient * density * velocity^2 * reference area / 2
+    """Calculates the drag force acting on the rocket.
+
+    Args:
+        density (float): From rocket.Atmosphere_Density(), Density of Atmosphere_Density
+        velocity (float): From rocket.Velocity(), velocity at timestep i
+        reference_area (float): Constant defined for the cross section of the Rocket
+
+    Returns:
+        drag (float): Drag force acting on the rocket in Newtons.
+            Equation::drag = coefficient * density * velocity^2 * reference area / 2
+
+    """
     cd = .75  #drag coefficient
     A = reference_area
     drag = .5 * cd * density * A * velocity**2
     return drag
 
 
-def Velocity(velocity, acceleration, i):  # F = m*a
+def Velocity(velocity, acceleration, i):
+    """Defines the velocity at timestep i.
+
+    Args:
+        velocity (float): Initial velocity = 0. Recursively updates the velocity_new
+        acceleration (float): From rocket.Acceleration(), Instantaneous acceleration.
+        i (int): Iterator used for Euler's Method
+
+    Returns:
+        velocity_new (float): Updated velocity. Will replace velocity for next iteration
+    """
+
+    # F = m*a
     velocity_new = velocity + acceleration * TIME_STEP
     #v_x = velocity * np.sin(theta)
     #    v_y = velocity * np.cos(theta)
@@ -188,11 +221,35 @@ def Velocity(velocity, acceleration, i):  # F = m*a
 
 
 def Altitude(altitude, velocity, i):
+    """Returns the altitude at timestep i.
+
+    Args:
+        altitude (float): Altitude calculated at timestep i-1
+        velocity (float): From rocket.Velocity(), The Instantaneous velocity of the rocket
+        i (int): Iterator used for Euler's method
+
+    Returns:
+        altitude (float): Altitude calculated at timestep i
+    """
+
     altitude = altitude + velocity * (TIME_STEP)  # * sin(pitch)
     return altitude
 
 
 def Position_downrange(downrange, velocity, angle_of_attack):
+    """ **Still under development**
+    Calculates the position in the x direction from the launch site based on an ascent profile.
+
+    Args:
+        downrange (float): Position downrange calculated at timestep i-1. Initial value = 0
+        velocity (float): From rocket.Velocity(): The Instantaneous velocity of the Rocket
+        angle_of_attack (float): From rocket.Angle_of_attack(): Angle of the rocket from the vertical.
+
+    Returns:
+        down_range (float): Position downrange at timestep i
+
+    """
+
     down_range = downrange + velocity * cos(angle_of_attack) * TIME_STEP
     return down_range
 
@@ -207,16 +264,57 @@ def Position_downrange(downrange, velocity, angle_of_attack):
 
 
 def free_fall_acceleration(force_gravity, mass_ship, force_drag):
+    """This function determines the downward force of gravity with respect to the
+    distance of the ship to the earth.
+
+    Args:
+        force_gravity (float): The force of gravity acting on the earth
+        mass_ship (float): The mass of the ship at timestep i
+        force_drag (float): The drag force acting against ship
+
+    Returns:
+        fall_acceleration (float): The acceleration of the ship at timestep i.
+    """
+
     fall_acceleration = (-force_gravity + force_drag) / mass_ship
     return fall_acceleration
 
 
 def Apogee(velocity):
+    """This function calculates the highest point in the rocket's trajectory as
+    a function of its instantaneous velocity.
+
+    Args:
+        velocity (float): from rocket.Velocity(): Current velocity of the Rocket
+
+    Returns:
+        apogee (float): Highest predicted altitude
+
+    """
     apogee = velocity**2 / (2 * STANDARD_GRAVITY)
     return apogee
 
 
 def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
+    """This function is the main simulation package. It calls each of the
+    necessary functions to calculate the position of the rocket for the duration
+    of the flight.
+
+    Each of the returned values from each function will be stored in an array
+    which will later be used to plot the results of the simulation.
+
+    Args:
+        thrust (float): Thrust force of the Rocket
+        motor_isp (float): Motor efficiency number
+        mass_flow (float): Mass flow per time step i
+        dry_mass (float): Dry mass of the Rocket
+        wet_mass (float): Mass of the Fully fueled Rocket
+
+    Returns:
+        N/A
+
+    """
+
     dV = Vacuum_dV(motor_isp, wet_mass, dry_mass)
 
     i = 0
@@ -266,7 +364,7 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
         height.append(altitude)
 
         #downrange = Position_downrange(downrange, velocity)
-        """This here is the time calculations"""
+        #This here is the time calculations
         time = i * TIME_STEP
         time_passed.append(time)
         i += 1
@@ -322,7 +420,7 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     #print("Max Drag: %.2f N") % max(drag)
     #print("y max: %.2f m") % max(a)
 
-    '''plt.subplot(4, 1, 1)
+    plt.subplot(4, 1, 1)
     plt.plot(time_passed, acceleration_rocket)
     plt.ylabel("Acceleration (m/s^2)")
     #plt.xlabel("Time (s)")
@@ -343,29 +441,34 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     plt.ylabel("Velocity (m/s)")
     plt.xlabel("Time (s)")
 
-    plt.show()'''
+    plt.show()
 
 
 def initialize_variables(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
+    """This function initializes the values for the rocket that will be used in the
+    simulation. Specifics are given alongside the value.
+
+
+    """
     #current values for falcon 9 booster
     thrust = float(
-        5300)  #float(raw_input("What is the total thrust? (in newtons) "))
+        5300)  # Motor thrust in Newtons
     motor_isp = float(
-        315)  #float(raw_input("What is the motor\'s vacuum isp? "))
+        315)  # Motor ISP
     mass_flow = thrust / (motor_isp * STANDARD_GRAVITY)
 
     dry_mass = float(
         30
-    )  #127000#13600 #float(raw_input("What is the dry mass of your ship? "))
+    )  # Dry mass in kg
     wet_mass = float(
         40
-    )  #510000#27300 #float(raw_input("What is the wet mass of your ship? "))
+    )  # Wet mass in kg
 
-    reference_area = 3.14159 * .1**2  # pi*r^2
+    reference_area = 3.14159 * .1**2  # This is the cross sectional profile of the rocket
     return dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area
 
 
-"""----------------------------------MAIN PROGRAM----------------------------------------"""
+#----------------------------------MAIN PROGRAM----------------------------------------
 
 dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area = initialize_variables(
     thrust, motor_isp, mass_flow, dry_mass, wet_mass)

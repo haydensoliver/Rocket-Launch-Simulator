@@ -58,7 +58,7 @@ def Mass_of_spaceship(wet_mass, mass_flow, mass_ship, i):
 
 
 def Force_Gravity(mass_ship, altitude):
-    """Calculates the force of gravity acting on the ship.
+    """Calculates the force of gravity acting on the ship at altitude in meters
 
     Args:
         mass_ship (float): The mass of the ship at timestep i.
@@ -67,6 +67,8 @@ def Force_Gravity(mass_ship, altitude):
     Returns:
         force_gravity (float): Calculated force of gravity at timestep i.
     """
+    if mass_ship < 0:
+        raise NameError("Mass error")
 
     force_gravity = G * mass_ship * MASS_EARTH / ((RADIUS_EARTH + altitude)**2)
     return force_gravity
@@ -452,19 +454,19 @@ def initialize_variables(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     """
     #current values for falcon 9 booster
     thrust = float(
-        5300)  # Motor thrust in Newtons
+        74)  # Motor thrust in Newtons
     motor_isp = float(
-        315)  # Motor ISP
+        200)  # Motor ISP
     mass_flow = thrust / (motor_isp * STANDARD_GRAVITY)
 
     dry_mass = float(
-        30
-    )  # Dry mass in kg
+        2
+           )  # Dry mass in kg
     wet_mass = float(
-        40
+        1
     )  # Wet mass in kg
 
-    reference_area = 3.14159 * .1**2  # This is the cross sectional profile of the rocket
+    reference_area = 3.14159 * .05**2  # This is the cross sectional profile of the rocket
     return dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area
 
 

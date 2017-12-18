@@ -24,7 +24,7 @@ time_to_MECO = 0.0
 mass_flow = 0.0
 dry_mass = 0.0
 wet_mass = 0.0
-force_gravity = 9.81 * (wet_mass)
+force_gravity = 9.0665 * (wet_mass)
 #------------PROGRAMS--------------
 
 
@@ -149,9 +149,9 @@ def Atmosphere_Density(altitude):
         return rho
 
     elif altitude > 20000 and altitude < 32000:
-        i = 2
-        rho = pb[i] * (Tb[i] / (Tb[i] + Lb[i] * (h - hb[i])))**(
-            1 + (STANDARD_GRAVITY * M) / (R * Lb[i]))
+            i = 2
+            rho = pb[i] * (Tb[i] / (Tb[i] + Lb[i] * (h - hb[i])))**(
+                1 + (STANDARD_GRAVITY * M) / (R * Lb[i]))
         return rho
 
     elif altitude > 32000 and altitude < 47000:

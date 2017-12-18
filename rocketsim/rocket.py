@@ -1,31 +1,3 @@
-#"""Needed pieces for the rocket launch simulator"""
-#import scipy
-#"""----------Imported functions--------------"""
-#import math.sin as sin()
-#"""--------------CONSTANTS-----------------"""
-# STANDARD_GRAVITY = 9.80665  # m/s^2
-# G = 6.674 * 10**-11
-# MASS_EARTH = 5.972 * 10**24  #kilograms
-# RADIUS_EARTH = 6.371 * 10**6  #meters
-# TIME_STEP = .1  #seconds
-# e = 2.71828
-# #MAX = 10000 # number of iterations, = 1000 second launch program
-# #---------------VARIABLES---------------
-# thrust = 0.0
-# motor_isp = 0.0
-# altitude = 0.0
-# velocity = 0
-# v_x = 0.0
-# v_y = 0.0
-# angle_of_attack = 0.0
-# time_to_MECO = 0.0
-# mass_flow = 0.0
-# dry_mass = 0.0
-# wet_mass = 0.0
-# force_gravity = 9.0665 * (wet_mass)
-#------------PROGRAMS--------------
-
-
 def Vacuum_dV(motor_isp, wet_mass, dry_mass):
     """Calculates the total available vacuum-dv by the Tsiakovlsy rocket equation
 
@@ -334,7 +306,7 @@ def Apogee(velocity):
     return apogee
 
 
-def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass, reference_area):
+def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass, reference_area): # pragma: no cover
     """This function is the main simulation package. It calls each of the
     necessary functions to calculate the position of the rocket for the duration
     of the flight.
@@ -386,7 +358,6 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass, reference_
     theta = 0.0
     mass_ship = wet_mass
     y_max = 0.0
-    """----LISTS TO GRAPH----"""
     mass = []
     acceleration_rocket = []
     speed = []
@@ -507,7 +478,7 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass, reference_
     plt.show()
 
 
-def initialize_variables():#thrust, motor_isp, mass_flow, dry_mass, wet_mass):
+def initialize_variables(): # pragma: no cover
     """This function initializes the values for the rocket that will be used in the
     simulation. Specifics are given alongside the value.
 
@@ -533,7 +504,7 @@ def initialize_variables():#thrust, motor_isp, mass_flow, dry_mass, wet_mass):
 
 
 #----------------------------------MAIN PROGRAM----------------------------------------
-def run():
+def run(): # pragma: no cover
 
     dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area = initialize_variables()#(thrust, motor_isp, mass_flow, dry_mass, wet_mass)
     Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass, reference_area)

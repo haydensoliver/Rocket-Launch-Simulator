@@ -60,5 +60,65 @@ def test_Atmosphere_Density():
     assert True == isclose(Atmosphere_Density(60000),0.000287784,1.0e-8)
     assert True == isclose(Atmosphere_Density(80000),0.0000156489,1.0e-9)
 
+def test_Drag():
 
-test_Vacuum_dV()
+    """Tests the function rocket.Drag"""
+
+    from rocketsim.rocket import Drag
+
+    assert 4593.75 == Drag(1.225,100,1)
+
+def test_Velocity():
+
+    """Tests the rocket.Velocity function """
+
+    from rocketsim.rocket import Velocity
+
+    assert 101 == Velocity(100,10,.1)
+    assert 99.02 == Velocity(100,-9.8,.1)
+    assert -100.98 == Velocity(-100,-9.8,.1)
+
+def test_Altitude():
+
+    """Tests the rocket.Altitude function """
+
+    from rocketsim.rocket import Altitude
+
+    assert 1010 == Altitude(1000,100,.1)
+    assert 990 == Altitude(1000,-100,.1)
+
+def test_Position_downrange():
+
+    """Tests the rocket.Position_downrange function """
+
+    from rocketsim.rocket import Position_downrange
+    from numpy import isclose
+
+    assert True == isclose(Position_downrange(1000,100,45),1007.071, 1.0e-2)
+
+def test_Freefall_acceleration():
+
+    """Tests the rocket.free_fall_acceleration function"""
+
+    from rocketsim.rocket import free_fall_acceleration
+    from numpy import isclose
+
+    assert -2.5 == free_fall_acceleration(1000,200,500)
+
+def test_Apogee():
+
+    """Tests the rocket.Apogee function """
+
+    from rocketsim.rocket import Apogee
+    from numpy import isclose
+
+    assert True == isclose(Apogee(100),509.858,.01)
+    assert 0 == Apogee(-50)
+
+# def test_initialize_variables():
+#
+#     """Tests to make sure variables are properly initialized"""
+#
+#     from rocketsim.rocket import initialize_variables
+#
+#     assert 1, 1, 1, 1, 1, 1 == initialize_variables()

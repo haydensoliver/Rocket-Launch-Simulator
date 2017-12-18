@@ -1,29 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>Welcome to Rocket Launch Simulator’s documentation! &#8212; Rocket Launch Simulator 1.0.0 documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
         VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Rocket Launch Simulator 1.0.0 documentation" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -31,7 +30,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -40,10 +39,205 @@
           <div class="body" role="main">
             
   <div class="section" id="welcome-to-rocket-launch-simulator-s-documentation">
-<h1>Welcome to Rocket Launch Simulator&#8217;s documentation!<a class="headerlink" href="#welcome-to-rocket-launch-simulator-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
+<h1>Welcome to Rocket Launch Simulator’s documentation!<a class="headerlink" href="#welcome-to-rocket-launch-simulator-s-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
+<span class="target" id="module-rocketsim.rocket"></span><dl class="function">
+<dt id="rocketsim.rocket.Acceleration">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Acceleration</code><span class="sig-paren">(</span><em>thrust</em>, <em>force_gravity</em>, <em>mass_ship</em>, <em>force_drag</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Acceleration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the acceleration at timestep t</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>force_gravity (float): force of gravity at timestep i
+mass_ship (float): The mass of the ship at timestep i
+force_drag (float): Force of drag at timestep i</dd>
+<dt>Returns:</dt>
+<dd>acceleration (float): Acceleration vector from a=dF/dm</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Altitude">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Altitude</code><span class="sig-paren">(</span><em>altitude</em>, <em>velocity</em>, <em>i</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Altitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the altitude at timestep i.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>altitude (float): Altitude calculated at timestep i-1
+velocity (float): From rocket.Velocity(), The Instantaneous velocity of the rocket
+i (int): Iterator used for Euler’s method</dd>
+<dt>Returns:</dt>
+<dd>altitude (float): Altitude calculated at timestep i</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Apogee">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Apogee</code><span class="sig-paren">(</span><em>velocity</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Apogee" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function calculates the highest point in the rocket’s trajectory as
+a function of its instantaneous velocity.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>velocity (float): from rocket.Velocity(): Current velocity of the Rocket</dd>
+<dt>Returns:</dt>
+<dd>apogee (float): Highest predicted altitude</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Atmosphere_Density">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Atmosphere_Density</code><span class="sig-paren">(</span><em>altitude</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Atmosphere_Density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the density of the atmosphere at any altitude for use in the drag equation”</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>altitude (float): The current altitude in meters above sea level</dd>
+<dt>Returns:</dt>
+<dd>rho (float): The density of the air in kg/m^3 at altitude</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Drag">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Drag</code><span class="sig-paren">(</span><em>density</em>, <em>velocity</em>, <em>reference_area</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Drag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the drag force acting on the rocket.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>density (float): From rocket.Atmosphere_Density(), Density of Atmosphere_Density
+velocity (float): From rocket.Velocity(), velocity at timestep i
+reference_area (float): Constant defined for the cross section of the Rocket</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>drag (float): Drag force acting on the rocket in Newtons.</dt>
+<dd>Equation::drag = coefficient * density * velocity^2 * reference area / 2</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Force_Gravity">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Force_Gravity</code><span class="sig-paren">(</span><em>mass_ship</em>, <em>altitude</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Force_Gravity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the force of gravity acting on the ship at altitude in meters</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>mass_ship (float): The mass of the ship at timestep i.
+altitude (float): The altitude of the rocket above Mean Sea level</dd>
+<dt>Returns:</dt>
+<dd>force_gravity (float): Calculated force of gravity at timestep i.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Main_simulation">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Main_simulation</code><span class="sig-paren">(</span><em>thrust</em>, <em>motor_isp</em>, <em>mass_flow</em>, <em>dry_mass</em>, <em>wet_mass</em>, <em>reference_area</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Main_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is the main simulation package. It calls each of the
+necessary functions to calculate the position of the rocket for the duration
+of the flight.</p>
+<p>Each of the returned values from each function will be stored in an array
+which will later be used to plot the results of the simulation.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>thrust (float): Thrust force of the Rocket
+motor_isp (float): Motor efficiency number
+mass_flow (float): Mass flow per time step i
+dry_mass (float): Dry mass of the Rocket
+wet_mass (float): Mass of the Fully fueled Rocket</dd>
+<dt>Returns:</dt>
+<dd>N/A</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Mass_of_spaceship">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Mass_of_spaceship</code><span class="sig-paren">(</span><em>wet_mass</em>, <em>mass_flow</em>, <em>mass_ship</em>, <em>i</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Mass_of_spaceship" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the mass of the rocket at time t</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>wet_mass (float): The mass of the ship and fuel at time t=0.
+mass_flow (float): Amount of fuel expelled per timestep
+i (int): Iterator used for Euler’s Method</dd>
+<dt>Returns:</dt>
+<dd>mass_ship (float): The new mass of the ship at timestep i.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Position_downrange">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Position_downrange</code><span class="sig-paren">(</span><em>downrange</em>, <em>velocity</em>, <em>angle_of_attack</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Position_downrange" title="Permalink to this definition">¶</a></dt>
+<dd><p><strong>Still under development</strong>
+Calculates the position in the x direction from the launch site based on an ascent profile.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>downrange (float): Position downrange calculated at timestep i-1. Initial value = 0
+velocity (float): From rocket.Velocity(): The Instantaneous velocity of the Rocket
+angle_of_attack (float): From rocket.Angle_of_attack(): Angle of the rocket from the vertical in degrees</dd>
+<dt>Returns:</dt>
+<dd>down_range (float): Position downrange at timestep i</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Thrust_ship">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Thrust_ship</code><span class="sig-paren">(</span><em>thrust</em>, <em>motor_isp</em>, <em>mass_flow</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Thrust_ship" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates thrust from the Rocket eqation: Thrust = Isp * g0 * massflow</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>motor_isp (float): Effiency constant for the motor.
+mass_flow (float): Total mass flow of exhaust.</dd>
+<dt>Returns:</dt>
+<dd>thrust (float): Thrust force produced by the rocket.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Vacuum_dV">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Vacuum_dV</code><span class="sig-paren">(</span><em>motor_isp</em>, <em>wet_mass</em>, <em>dry_mass</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Vacuum_dV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the total available vacuum-dv by the Tsiakovlsy rocket equation</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>motor_isp (float): The ISP rating of the motor_isp
+wet_mass (float): Total mass of the fully fueld Rocket
+dry_mass (float): Mass of the empty Rocket</dd>
+<dt>Returns:</dt>
+<dd>deltaV (float): Total meters per second of dV available.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.Velocity">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">Velocity</code><span class="sig-paren">(</span><em>velocity</em>, <em>acceleration</em>, <em>i</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.Velocity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines the velocity at timestep i.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>velocity (float): Initial velocity = 0. Recursively updates the velocity_new
+acceleration (float): From rocket.Acceleration(), Instantaneous acceleration.
+i (int): Iterator used for Euler’s Method</dd>
+<dt>Returns:</dt>
+<dd>velocity_new (float): Updated velocity. Will replace velocity for next iteration</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.free_fall_acceleration">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">free_fall_acceleration</code><span class="sig-paren">(</span><em>force_gravity</em>, <em>mass_ship</em>, <em>force_drag</em><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.free_fall_acceleration" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function determines the downward force of gravity with respect to the
+distance of the ship to the earth.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>force_gravity (float): The force of gravity acting on the earth
+mass_ship (float): The mass of the ship at timestep i
+force_drag (float): The drag force acting against ship</dd>
+<dt>Returns:</dt>
+<dd>fall_acceleration (float): The acceleration of the ship at timestep i.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="rocketsim.rocket.initialize_variables">
+<code class="descclassname">rocketsim.rocket.</code><code class="descname">initialize_variables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rocketsim.rocket.initialize_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function initializes the values for the rocket that will be used in the
+simulation. Specifics are given alongside the value.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
@@ -60,11 +254,17 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to Rocket Launch Simulator&#8217;s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
+<h1 class="logo"><a href="#">Rocket Launch Simulator</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -72,13 +272,6 @@
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -97,11 +290,11 @@
       &copy;2017, Hayden Oliver.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/index.txt"
+      <a href="_sources/index.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

@@ -29,6 +29,17 @@ force_gravity = 9.0665 * (wet_mass)
 
 
 def Vacuum_dV(motor_isp, wet_mass, dry_mass):
+    """Calculates the total available vacuum-dv by the Tsiakovlsy rocket equation
+
+    Args:
+        motor_isp (float): The ISP rating of the motor_isp
+        wet_mass (float): Total mass of the fully fueld Rocket
+        dry_mass (float): Mass of the empty Rocket
+
+    Returns:
+        deltaV (float): Total meters per second of dV available.
+
+    """
     #    print(wet_mass, dry_mass, motor_isp, STANDARD_GRAVITY)
     deltaV = STANDARD_GRAVITY * motor_isp * np.log(wet_mass / dry_mass)
     print("Total delta-V is ")
@@ -149,9 +160,8 @@ def Atmosphere_Density(altitude):
         return rho
 
     elif altitude > 20000 and altitude < 32000:
-            i = 2
-            rho = pb[i] * (Tb[i] / (Tb[i] + Lb[i] * (h - hb[i])))**(
-                1 + (STANDARD_GRAVITY * M) / (R * Lb[i]))
+        i = 2
+        rho = pb[i] * (Tb[i] / (Tb[i] + Lb[i] * (h - hb[i])))**(    1 + (STANDARD_GRAVITY * M) / (R * Lb[i]))
         return rho
 
     elif altitude > 32000 and altitude < 47000:
@@ -374,8 +384,9 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     gravity_loss = dV - velocity
     print ("Final velocity: ")
     print(velocity)
-    print(" m/s \nTotal dV lost: ")
-    print(gravity_loss)
+    print(" m/s")
+    print("Total dV lost: ")
+    print("gravity_loss")
     print(" m/s")
 
     print ("\n\n---MECO---\n\n")
@@ -412,7 +423,7 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
         print("t+",time,"s")
         time_passed.append(time)
         print(altitude)
-        break
+        # break
         i += 1
 
     #print("Apogee: %.2f m") % max(height)
@@ -454,16 +465,16 @@ def initialize_variables(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     """
     #current values for falcon 9 booster
     thrust = float(
-        74)  # Motor thrust in Newtons
+        490000)  # Motor thrust in Newtons
     motor_isp = float(
-        200)  # Motor ISP
+        335)  # Motor ISP
     mass_flow = thrust / (motor_isp * STANDARD_GRAVITY)
 
     dry_mass = float(
-        2
+        17000
            )  # Dry mass in kg
     wet_mass = float(
-        1
+        40000
     )  # Wet mass in kg
 
     reference_area = 3.14159 * .05**2  # This is the cross sectional profile of the rocket

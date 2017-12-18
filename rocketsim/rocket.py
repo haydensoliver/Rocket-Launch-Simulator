@@ -39,9 +39,9 @@ def Vacuum_dV(motor_isp, wet_mass, dry_mass):
 
     """
 
-    import numpy as np
-    #    print(wet_mass, dry_mass, motor_isp, STANDARD_GRAVITY)
-    deltaV = 9.0665 * motor_isp * np.log(wet_mass / dry_mass)
+    from numpy import log
+    #print(wet_mass, dry_mass, motor_isp)
+    deltaV = 9.0665 * motor_isp * log(wet_mass / dry_mass)
     print("Total delta-V is ")
     print(deltaV)
     print(" m/s \n\n")
@@ -239,6 +239,8 @@ def Velocity(velocity, acceleration, i):
     """
 
     # F = m*a
+    TIME_STEP = .1
+
     velocity_new = velocity + acceleration * TIME_STEP
     #v_x = velocity * np.sin(theta)
     #    v_y = velocity * np.cos(theta)
@@ -259,6 +261,8 @@ def Altitude(altitude, velocity, i):
         altitude (float): Altitude calculated at timestep i
     """
 
+    TIME_STEP = .1
+
     altitude = altitude + velocity * (TIME_STEP)  # * sin(pitch)
     return altitude
 
@@ -270,14 +274,18 @@ def Position_downrange(downrange, velocity, angle_of_attack):
     Args:
         downrange (float): Position downrange calculated at timestep i-1. Initial value = 0
         velocity (float): From rocket.Velocity(): The Instantaneous velocity of the Rocket
-        angle_of_attack (float): From rocket.Angle_of_attack(): Angle of the rocket from the vertical.
+        angle_of_attack (float): From rocket.Angle_of_attack(): Angle of the rocket from the vertical in degrees
 
     Returns:
         down_range (float): Position downrange at timestep i
 
     """
+    from numpy import cos
 
-    down_range = downrange + velocity * cos(angle_of_attack) * TIME_STEP
+    theta = angle_of_attack * 3.14159/180
+    TIME_STEP = .1
+
+    down_range = downrange + velocity * cos(theta) * TIME_STEP
     return down_range
 
 
@@ -303,7 +311,7 @@ def free_fall_acceleration(force_gravity, mass_ship, force_drag):
         fall_acceleration (float): The acceleration of the ship at timestep i.
     """
 
-    fall_acceleration = (-force_gravity + force_drag) / mass_ship
+    fall_acceleration = (-force_gravity + force_drag) * 1.0 / mass_ship
     return fall_acceleration
 
 
@@ -318,11 +326,15 @@ def Apogee(velocity):
         apogee (float): Highest predicted altitude
 
     """
-    apogee = velocity**2 / (2 * STANDARD_GRAVITY)
+
+    if velocity < 0:
+        return 0
+
+    apogee = velocity**2 / (2 * 9.80665)
     return apogee
 
 
-def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
+def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass, reference_area):
     """This function is the main simulation package. It calls each of the
     necessary functions to calculate the position of the rocket for the duration
     of the flight.
@@ -351,18 +363,18 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     e = 2.71828
     #MAX = 10000 # number of iterations, = 1000 second launch program
     #---------------VARIABLES---------------
-    thrust = 0.0
-    motor_isp = 0.0
-    altitude = 0.0
-    velocity = 0
-    v_x = 0.0
-    v_y = 0.0
-    angle_of_attack = 0.0
-    time_to_MECO = 0.0
-    mass_flow = 0.0
-    dry_mass = 0.0
-    wet_mass = 0.0
-    force_gravity = 9.0665 * (wet_mass)
+    # thrust = 0.0
+    # motor_isp = 0.0
+    # altitude = 0.0
+    # velocity = 0
+    # v_x = 0.0
+    # v_y = 0.0
+    # angle_of_attack = 0.0
+    # time_to_MECO = 0.0
+    # mass_flow = 0.0
+    # dry_mass = 0.0
+    # wet_mass = 0.0
+    # force_gravity = 9.0665 * (wet_mass)
 
 
     dV = Vacuum_dV(motor_isp, wet_mass, dry_mass)
@@ -458,9 +470,9 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
         #downrange = Position_downrange(downrange, velocity)
 
         time = i * TIME_STEP
-        print("t+",time,"s")
+    #    print("t+",time,"s")
         time_passed.append(time)
-        print(altitude)
+    #    print(altitude)
         # break
         i += 1
 
@@ -495,12 +507,13 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     plt.show()
 
 
-def initialize_variables(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
+def initialize_variables():#thrust, motor_isp, mass_flow, dry_mass, wet_mass):
     """This function initializes the values for the rocket that will be used in the
     simulation. Specifics are given alongside the value.
 
 
     """
+    STANDARD_GRAVITY = 9.0665
     #current values for falcon 9 booster
     thrust = float(
         490000)  # Motor thrust in Newtons
@@ -515,15 +528,12 @@ def initialize_variables(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
         40000
     )  # Wet mass in kg
 
-    reference_area = 3.14159 * .05**2  # This is the cross sectional profile of the rocket
+    reference_area = 3.14159 * 3**2  # This is the cross sectional profile of the rocket
     return dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area
 
 
 #----------------------------------MAIN PROGRAM----------------------------------------
+def run():
 
-# dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area = initialize_variables(
-#     thrust, motor_isp, mass_flow, dry_mass, wet_mass)
-#
-# Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass)
-
-#
+    dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area = initialize_variables()#(thrust, motor_isp, mass_flow, dry_mass, wet_mass)
+    Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass, reference_area)

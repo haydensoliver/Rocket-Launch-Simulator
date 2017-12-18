@@ -1,30 +1,28 @@
 #"""Needed pieces for the rocket launch simulator"""
 #import scipy
-import matplotlib.pyplot as plt
-import numpy as np
 #"""----------Imported functions--------------"""
 #import math.sin as sin()
 #"""--------------CONSTANTS-----------------"""
-STANDARD_GRAVITY = 9.80665  # m/s^2
-G = 6.674 * 10**-11
-MASS_EARTH = 5.972 * 10**24  #kilograms
-RADIUS_EARTH = 6.371 * 10**6  #meters
-TIME_STEP = .1  #seconds
-e = 2.71828
-#MAX = 10000 # number of iterations, = 1000 second launch program
-#---------------VARIABLES---------------
-thrust = 0.0
-motor_isp = 0.0
-altitude = 0.0
-velocity = 0
-v_x = 0.0
-v_y = 0.0
-angle_of_attack = 0.0
-time_to_MECO = 0.0
-mass_flow = 0.0
-dry_mass = 0.0
-wet_mass = 0.0
-force_gravity = 9.0665 * (wet_mass)
+# STANDARD_GRAVITY = 9.80665  # m/s^2
+# G = 6.674 * 10**-11
+# MASS_EARTH = 5.972 * 10**24  #kilograms
+# RADIUS_EARTH = 6.371 * 10**6  #meters
+# TIME_STEP = .1  #seconds
+# e = 2.71828
+# #MAX = 10000 # number of iterations, = 1000 second launch program
+# #---------------VARIABLES---------------
+# thrust = 0.0
+# motor_isp = 0.0
+# altitude = 0.0
+# velocity = 0
+# v_x = 0.0
+# v_y = 0.0
+# angle_of_attack = 0.0
+# time_to_MECO = 0.0
+# mass_flow = 0.0
+# dry_mass = 0.0
+# wet_mass = 0.0
+# force_gravity = 9.0665 * (wet_mass)
 #------------PROGRAMS--------------
 
 
@@ -40,8 +38,10 @@ def Vacuum_dV(motor_isp, wet_mass, dry_mass):
         deltaV (float): Total meters per second of dV available.
 
     """
+
+    import numpy as np
     #    print(wet_mass, dry_mass, motor_isp, STANDARD_GRAVITY)
-    deltaV = STANDARD_GRAVITY * motor_isp * np.log(wet_mass / dry_mass)
+    deltaV = 9.0665 * motor_isp * np.log(wet_mass / dry_mass)
     print("Total delta-V is ")
     print(deltaV)
     print(" m/s \n\n")
@@ -62,7 +62,7 @@ def Mass_of_spaceship(wet_mass, mass_flow, mass_ship, i):
         mass_ship (float): The new mass of the ship at timestep i.
 
     """
-
+    TIME_STEP = .1
     mass_ship = wet_mass - mass_flow * TIME_STEP * i
 
     return mass_ship
@@ -78,6 +78,13 @@ def Force_Gravity(mass_ship, altitude):
     Returns:
         force_gravity (float): Calculated force of gravity at timestep i.
     """
+
+    G = 6.674 * 10**-11
+    MASS_EARTH = 5.972 * 10**24
+    RADIUS_EARTH = 6.371 * 10**6  #meters
+    STANDARD_GRAVITY = 9.80665  # m/s^2
+
+
     if mass_ship < 0:
         raise NameError("Mass error")
 
@@ -95,7 +102,11 @@ def Thrust_ship(thrust, motor_isp, mass_flow):
     Returns:
         thrust (float): Thrust force produced by the rocket.
 
-     """
+    """
+    STANDARD_GRAVITY = 9.80665  # m/s^2
+
+
+
     thrust = motor_isp * STANDARD_GRAVITY * mass_flow
     return thrust
 
@@ -131,6 +142,10 @@ def Atmosphere_Density(altitude):
     # """CONSTANTS FOR GASSES"""
     R = 8.31432  # ideal gas constant J/(mol*K)
     M = .0289644  # molar mass of dry air, kg/mol
+    STANDARD_GRAVITY = 9.80665  # m/s^2
+    e = 2.71828
+
+
     #"""SUBSCRIPT TABLES"""
     pb = [1.2250, 0.36391, 0.08803, 0.01322, 0.00143, 0.00086, 0.000064]
     hb = [0.0, 11000, 20000, 32000, 47000, 51000, 71000]
@@ -327,6 +342,29 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
 
     """
 
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+
+     #kilograms
+    TIME_STEP = .1  #seconds
+    e = 2.71828
+    #MAX = 10000 # number of iterations, = 1000 second launch program
+    #---------------VARIABLES---------------
+    thrust = 0.0
+    motor_isp = 0.0
+    altitude = 0.0
+    velocity = 0
+    v_x = 0.0
+    v_y = 0.0
+    angle_of_attack = 0.0
+    time_to_MECO = 0.0
+    mass_flow = 0.0
+    dry_mass = 0.0
+    wet_mass = 0.0
+    force_gravity = 9.0665 * (wet_mass)
+
+
     dV = Vacuum_dV(motor_isp, wet_mass, dry_mass)
 
     i = 0
@@ -483,9 +521,9 @@ def initialize_variables(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
 
 #----------------------------------MAIN PROGRAM----------------------------------------
 
-dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area = initialize_variables(
-    thrust, motor_isp, mass_flow, dry_mass, wet_mass)
-
-Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass)
+# dry_mass, wet_mass, mass_flow, thrust, motor_isp, reference_area = initialize_variables(
+#     thrust, motor_isp, mass_flow, dry_mass, wet_mass)
+#
+# Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass)
 
 #

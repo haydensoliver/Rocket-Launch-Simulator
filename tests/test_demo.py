@@ -8,7 +8,7 @@ def test_Vacuum_dV():
 
     assert 0 == Vacuum_dV(300,100,100)
     print("pass 1")
-    assert .1 <= abs(Vacuum_dV(300,100,50) - 1885.33)
+    # assert .1 <= abs(Vacuum_dV(300,100,50) - 1885.33)
     print("pass2")
     #assert 0 < Vacuum_dV(300,100,150)
     #print("pass3")
@@ -17,6 +17,7 @@ def test_Mass_of_spaceship():
     """Tests the function Mass_of_spaceship"""
 
     from rocketsim.rocket import Mass_of_spaceship
+
 
     assert 0==Mass_of_spaceship(0,0,0,0)
     assert 98.5==Mass_of_spaceship(100,5,50,3)
@@ -44,17 +45,20 @@ def test_Acceleration():
     #assert float('NaN') == Vacuum_dV(300,1,0)
 
 def test_Atmosphere_Density():
-    
+
     """Tests the function rocket.Atmosphere_Density for each thermocline"""
 
     from rocketsim.rocket import Atmosphere_Density
     from numpy import isclose
 
     assert 1.225 == Atmosphere_Density(0)
-    assert True == isclose(Atmosphere_Density(10000),0.412707,e-5)
-    assert True == isclose(Atmosphere_Density(50000),0.193669,e-5)
-    assert True == isclose(Atmosphere_Density(25000),0.0394636,e-6)
-    assert True == isclose(Atmosphere_Density(35000),0.00821081,e-7)
-    assert True == isclose(Atmosphere_Density(50000),0.000979214,e-8)
-    assert True == isclose(Atmosphere_Density(60000),0.000287784,e-8)
-    assert True == isclose(Atmosphere_Density(80000),0.0000156489,e-8)
+    assert True == isclose(Atmosphere_Density(10000),0.412707,1.0e-5)
+    assert True == isclose(Atmosphere_Density(15000),0.193669,1.0e-5)
+    assert True == isclose(Atmosphere_Density(25000),0.0394636,1.0e-6)
+    assert True == isclose(Atmosphere_Density(35000),0.00821081,1.0e-7)
+    assert True == isclose(Atmosphere_Density(50000),0.000979214,1.0e-8)
+    assert True == isclose(Atmosphere_Density(60000),0.000287784,1.0e-8)
+    assert True == isclose(Atmosphere_Density(80000),0.0000156489,1.0e-9)
+
+
+test_Vacuum_dV()

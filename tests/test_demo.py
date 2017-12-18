@@ -44,7 +44,7 @@ def test_Acceleration():
     #assert float('NaN') == Vacuum_dV(300,1,0)
 
 def test_Atmosphere_Density():
-
+    
     """Tests the function rocket.Atmosphere_Density for each thermocline"""
 
     from rocketsim.rocket import Atmosphere_Density

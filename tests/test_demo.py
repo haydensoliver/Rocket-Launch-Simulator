@@ -48,13 +48,13 @@ def test_Atmosphere_Density():
     """Tests the function rocket.Atmosphere_Density for each thermocline"""
 
     from rocketsim.rocket import Atmosphere_Density
-    from math import isclose
+    from numpy import isclose
 
-    assert 1.225==Atmosphere_Density(0)
-    assert True==isclose(Atmosphere_Density(10000),0.412707,e-5)
-    assert True==isclose(Atmosphere_Density(50000),0.193669,e-5)
-    assert True==isclose(Atmosphere_Density(25000),0.0394636,e-6)
-    assert True==isclose(Atmosphere_Density(35000),0.00821081,e-7)
-    assert True==isclose(Atmosphere_Density(50000),0.000979214,e-8)
-    assert True==isclose(Atmosphere_Density(60000),0.000287784,e-8)
-    assert True==isclose(Atmosphere_Density(80000),0.0000156489,e-8)
+    assert 1.225 == Atmosphere_Density(0)
+    assert True == isclose(Atmosphere_Density(10000),0.412707,e-5)
+    assert True == isclose(Atmosphere_Density(50000),0.193669,e-5)
+    assert True == isclose(Atmosphere_Density(25000),0.0394636,e-6)
+    assert True == isclose(Atmosphere_Density(35000),0.00821081,e-7)
+    assert True == isclose(Atmosphere_Density(50000),0.000979214,e-8)
+    assert True == isclose(Atmosphere_Density(60000),0.000287784,e-8)
+    assert True == isclose(Atmosphere_Density(80000),0.0000156489,e-8)

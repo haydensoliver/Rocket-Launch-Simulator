@@ -46,7 +46,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Rocket Launch Simulator'
+project = u'Rocket-Launch-Simulator'
 copyright = u'2017, Hayden Oliver'
 author = u'Hayden Oliver'
 
@@ -167,6 +167,3 @@ texinfo_documents = [
      author, 'RocketLaunchSimulator', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-

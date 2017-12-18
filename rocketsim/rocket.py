@@ -382,14 +382,14 @@ def Main_simulation(thrust, motor_isp, mass_flow, dry_mass, wet_mass):
         i += 1
 
     gravity_loss = dV - velocity
-    print ("Final velocity: ")
-    print(velocity)
-    print(" m/s")
-    print("Total dV lost: ")
-    print("gravity_loss")
-    print(" m/s")
-
-    print ("\n\n---MECO---\n\n")
+    # print ("Final velocity: ")
+    # print(velocity)
+    # print(" m/s")
+    # print("Total dV lost: ")
+    # print("gravity_loss")
+    # print(" m/s")
+    #
+    # print ("\n\n---MECO---\n\n")
 
 
     import time as t

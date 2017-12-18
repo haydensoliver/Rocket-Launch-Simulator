@@ -9,3 +9,10 @@ This package is a simple simulator, to be used in conjunction with popular simul
 
 
 Full API Documentation available at: [github pages](https://hallover.github.io/Rocket-Launch-Simulator/).
+
+To run this simulator, download and install the package. Edit the initial variables in the rocketsim.rocket file (found at the bottom of the file), and open a python shell in the root directory.
+
+Run :
+```import rocketsim.rocket as r```
+```r.run()```
+
